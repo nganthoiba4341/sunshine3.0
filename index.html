@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Sunshine</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Base Styling */
+        body {
+            font-family: 'Cormorant Garamond', serif;
+            background-color: #fce4ec;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Romantic Text Styling */
+        .text-romantic {
+            color: #6B1123;
+            font-style: italic;
+            line-height: 1.8;
+            font-weight: 500;
+        }
+
+        /* Animated Gradient Background */
+        .bg-animated-gradient {
+            background: linear-gradient(-45deg, #ffd1dc, #ffe4e1, #fff0f5, #fae6fa);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -2;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Floating Ambient Particles */
+        #particles-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            bottom: -5vh;
+            background-color: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            animation: floatUp linear infinite;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) scale(0.5); opacity: 0; }
+            20% { opacity: 0.8; }
+            80% { opacity: 0.5; }
+            100% { transform: translateY(-110vh) scale(1.5); opacity: 0; }
+        }
+
+        /* Glassmorphism Container */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.55);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 10px 40px 0 rgba(107, 17, 35, 0.2);
+        }
+
+        /* UI Transitions */
+        .fade-in { animation: fadeIn 1.2s forwards; }
+        .fade-out { animation: fadeOut 0.8s forwards; }
+        .fade-in-slow { animation: fadeIn 2.5s forwards; }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes fadeOut {
+            from { opacity: 1; transform: translateY(0); }
+            to { opacity: 0; transform: translateY(-10px); visibility: hidden; }
+        }
+
+        /* Beating & Glowing Heart Graphic */
+        .heartbeat {
+            animation: beat 1.5s infinite;
+            display: inline-block;
+            filter: drop-shadow(0 0 10px rgba(255, 105, 180, 0.6));
+        }
+
+        @keyframes beat {
+            0%, 100% { transform: scale(1); }
+            14% { transform: scale(1.15); }
+            28% { transform: scale(1); }
+            42% { transform: scale(1.15); }
+            70% { transform: scale(1); }
+        }
+
+        /* Pulsing start button */
+        .pulse-btn {
+            animation: pulse-shadow 2s infinite;
+        }
+
+        @keyframes pulse-shadow {
+            0% { box-shadow: 0 0 0 0 rgba(107, 17, 35, 0.4); }
+            70% { box-shadow: 0 0 0 15px rgba(107, 17, 35, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(107, 17, 35, 0); }
+        }
+        
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(107, 17, 35, 0.2); border-radius: 10px; }
+
+        .typewriter-cursor::after {
+            content: '|';
+            animation: blink 1s step-end infinite;
+        }
+        @keyframes blink { 50% { opacity: 0; } }
+
+        /* Floating Closing Emojis */
+        .float-emoji {
+            animation: gentle-float 3s ease-in-out infinite;
+        }
+        @keyframes gentle-float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+    </style>
+</head>
+<body class="text-romantic text-xl md:text-2xl antialiased h-screen w-screen flex items-center justify-center relative">
+
+    <div class="bg-animated-gradient"></div>
+    <div id="particles-container"></div>
+
+    <!-- Landing Screen -->
+    <div id="landing-screen" class="absolute inset-0 flex flex-col items-center justify-center z-50 transition-opacity duration-1000">
+        <div class="glass-panel p-10 rounded-3xl flex flex-col items-center text-center mx-4">
+            <div class="text-5xl mb-6">💌</div>
+            <h1 class="text-3xl md:text-4xl font-bold mb-8 text-[#6B1123]">A message for my Sunshine</h1>
+            <button id="start-btn" class="pulse-btn bg-[#6B1123] text-[#fff0f5] px-8 py-3 rounded-full text-lg md:text-xl font-semibold tracking-wide hover:bg-[#4a0a16] transition-colors duration-300">
+                Open Letter
+            </button>
+        </div>
+    </div>
+
+    <!-- Main App Container -->
+    <div id="app-container" class="hidden w-full max-w-4xl max-h-[90vh] mx-4 flex-col relative z-40">
+        <div class="glass-panel w-full h-full rounded-3xl p-6 md:p-12 flex flex-col relative overflow-y-auto shadow-2xl">
+            
+            <!-- Graphic Section -->
+            <div id="graphic-container" class="text-4xl md:text-5xl text-center mb-6 h-16 flex items-center justify-center drop-shadow-sm transition-opacity duration-500">
+                <!-- Graphic injected here -->
+            </div>
+
+            <!-- Text Content Section (Clickable to skip) -->
+            <div id="text-container" class="flex-grow cursor-pointer min-h-[250px] md:min-h-[350px]">
+                <p id="typewriter-output" class="text-2xl md:text-[1.85rem] leading-relaxed md:leading-[1.9] text-justify typewriter-cursor">
+                    <!-- Text injected here -->
+                </p>
+                <div id="skip-hint" class="text-sm text-center text-[#6B1123] opacity-50 mt-8 hidden animate-pulse font-sans italic">
+                    Tap text to skip typing...
+                </div>
+            </div>
+
+            <!-- Navigation Section -->
+            <div class="mt-8 flex justify-between items-center min-h-[60px]">
+                <button id="prev-btn" class="hidden opacity-0 bg-white/40 hover:bg-white/80 text-[#6B1123] px-5 py-2 rounded-full border border-[#6B1123]/20 transition-all duration-300 flex items-center gap-2 text-lg">
+                    <span>➔</span> Previous
+                </button>
+                <button id="next-btn" class="hidden opacity-0 bg-[#6B1123]/10 hover:bg-[#6B1123]/20 text-[#6B1123] px-6 py-2 rounded-full border border-[#6B1123]/30 shadow-sm transition-all duration-300 flex items-center gap-2 text-lg font-semibold ml-auto">
+                    Next <span>➔</span>
+                </button>
+            </div>
+            
+        </div>
+    </div>
+
+    <!-- Final Closing Screen -->
+    <div id="closing-screen" class="hidden absolute inset-0 flex flex-col items-center justify-center z-50 transition-opacity duration-1000 bg-white/20 backdrop-blur-md">
+        <div class="glass-panel p-10 md:p-16 rounded-3xl flex flex-col items-center text-center mx-4 shadow-[0_0_50px_rgba(255,182,193,0.5)] max-w-3xl w-full relative overflow-hidden">
+            
+            <div class="flex gap-6 mb-8 text-4xl md:text-5xl float-emoji">
+                <span>💖</span><span>✨</span><span>♾️</span><span>🌹</span>
+            </div>
+
+            <div class="text-3xl md:text-5xl font-bold text-[#6B1123] leading-relaxed mb-12 heartbeat" style="font-style: italic;">
+                I loved you then,<br>
+                I love you now,<br>
+                I will always love you.
+            </div>
+
+            <div class="w-full text-right text-2xl md:text-4xl text-[#6B1123] italic font-semibold border-t border-[#6B1123]/20 pt-6">
+                - DUMMY
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            const particlesContainer = document.getElementById('particles-container');
+            const numParticles = 40;
+            
+            for (let i = 0; i < numParticles; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                const size = Math.random() * 8 + 3;
+                const left = Math.random() * 100;
+                const duration = Math.random() * 15 + 10;
+                const delay = Math.random() * 20;
+                
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${left}vw`;
+                particle.style.animationDuration = `${duration}s`;
+                particle.style.animationDelay = `${delay}s`;
+                
+                particlesContainer.appendChild(particle);
+            }
+
+            const pagesData = [
+                { icon: "☀️", text: "Dear sunshine,<br><br>There’s something I’ve been realizing about you for a while, and I want you to understand what I mean because I’m not saying this to criticize you or tell you to change who you are...<br><br>You’re someone who gives so much of yourself to the things and people you care about. When you love something, you put your whole heart into it. You work hard, you take responsibility, you go out of your way for people, and sometimes you keep giving even when you’re already tired.<br><br>And honestly, that’s one of the things I admire and love most about you. So I never want you to stop doing that. If you love doing something, do it. If helping someone makes you happy, help them. If putting effort into something makes you feel fulfilled, give it everything. I don't want you to become less caring or less hardworking just because some people don't appreciate you." },
+                { icon: "🌧️", text: "What I want you to change is something different.<br><br>Sometimes I feel like you put so much effort into certain people because you want them to recognize it. You want them to see how much you've done, how much you've cared, how much you've sacrificed. And when they don't acknowledge it or show you the gratitude you deserve, it affects you so deeply. It ruins your mood, makes you angry, makes you sad, and you end up carrying that disappointment with you. And I hate seeing you hurt like that.<br><br>Because the harsh truth is, not everyone is going to appreciate you. Most people think mostly about themselves. Some people will accept someone's kindness and effort as if they're entitled to it. You could give them everything you have and they might still not stop and say, “I really appreciate what you did for me.”<br><br>And that's something I don't want you to keep fighting against. I want you to learn the difference between doing something because you genuinely want to do it and doing something because you're hoping that, eventually, someone will recognize your worth." },
+                { icon: "🍂", text: "The first one is beautiful.<br><br>The second one is exhausting." },
+                { icon: "🕯️", text: "And sometimes, while you're putting so much effort into people who don't really see you, you end up having less energy for the people who already do. I’m not blaming you for that either. I actually understand why it happens.<br><br>You know that I love you. You know your parents love you. You know there are a handful of people who genuinely know you and appreciate you. So naturally, you don't feel like you have to constantly prove yourself to us. You know we're going to be there regardless." },
+                { icon: "🌿", text: "But I don't want that security to mean that the people who love you get whatever energy is left after you've spent everything trying to earn appreciation from people who may never give it to you.<br><br>You don't have to work harder for us to prove anything. We already know you.<br><br>I know how much effort you put into things. I know how much you care. I notice the little things you do, even the things you think nobody notices. Your parents know you. The people who genuinely love you know you." },
+                { icon: "🍀", text: "And honestly, I think you're incredibly lucky to have people like that around you...<br><br>And I feel lucky that I get to be one of those people." },
+                { icon: "🕊️", text: "Because I’ve always looked at things differently. I’ve never really cared about getting recognition from everyone. If I do something, I do it because I want to, because I care about it, or because I love doing it.<br><br>And if it's something where appreciation matters, I know that the people who matter to me will see it. I know you'll appreciate it. I know my parents will. And that has always been enough for me. The only person's opinion I've ever really cared about beyond my own is yours.<br><br>And I want you to have that same peace." },
+                { icon: "🛡️", text: "Please don't let the people who don't appreciate you have so much control over your happiness.<br><br>If you genuinely want to do something for them, do it. If it makes you happy, do it. If you don't mind that they may never thank you, then do it with your whole heart.<br><br>But if you're exhausting yourself because you're waiting for this time to finally be the time they recognize you, then please stop and ask yourself whether that recognition is really worth all the energy and pain you're putting into it." },
+                { icon: "👑", text: "Because your kindness isn't something people are entitled to. Your effort isn't something people automatically deserve. And your worth doesn't become smaller just because someone failed to recognize it.<br><br>You don't have to prove yourself to everyone. You already have people who see you. You already have people who appreciate you. You already have people who genuinely love you—not because of what you do for them, but simply because you're you." },
+                { icon: "🌸", text: "So please, keep being the girl who cares. Keep working hard. Keep putting your heart into things you genuinely love. I never want to take that beautiful part of you away. I just want you to be more careful about where you spend that beautiful energy.<br><br>Give some of it to yourself. Give some of it to the people who genuinely love you. And if someone doesn't appreciate what you do, let them. Don't let their inability to see your value make you question your value. Because I see you.<br><br>You don't have to earn your worth from the rest of the world. We already know it." },
+                { icon: "✨", text: "And I hope one day you can feel just as secure in your own worth as you should feel in the love we have for you. ❤️" }
+            ];
+
+            let currentPage = 0;
+            let isTyping = false;
+            let typingTimeout;
+            let currentTextTokens = [];
+            let tokenIndex = 0;
+
+            const landingScreen = document.getElementById('landing-screen');
+            const startBtn = document.getElementById('start-btn');
+            const appContainer = document.getElementById('app-container');
+            const graphicContainer = document.getElementById('graphic-container');
+            const textContainer = document.getElementById('text-container');
+            const outputElement = document.getElementById('typewriter-output');
+            const nextBtn = document.getElementById('next-btn');
+            const prevBtn = document.getElementById('prev-btn');
+            const skipHint = document.getElementById('skip-hint');
+            const closingScreen = document.getElementById('closing-screen');
+
+            function parseHTMLText(rawText) {
+                const tokens = [];
+                let i = 0;
+                while (i < rawText.length) {
+                    if (rawText.substring(i, i + 4) === '<br>') {
+                        tokens.push('<br>');
+                        i += 4;
+                    } else {
+                        tokens.push(rawText[i]);
+                        i++;
+                    }
+                }
+                return tokens;
+            }
+
+            function typeNextToken() {
+                if (!isTyping) return;
+
+                if (tokenIndex < currentTextTokens.length) {
+                    let token = currentTextTokens[tokenIndex];
+                    
+                    if (token === '<br>') {
+                        outputElement.innerHTML += '<br>';
+                    } else {
+                        outputElement.innerHTML += token;
+                    }
+                    
+                    tokenIndex++;
+                    
+                    let speed = 40; 
+                    if (token === '.' || token === ',' || token === '?' || token === '!') speed = 300; 
+                    else if (token === '<br>') speed = 400; 
+                    else speed = speed + (Math.random() * 20 - 10);
+
+                    typingTimeout = setTimeout(typeNextToken, speed);
+                } else {
+                    finishTyping();
+                }
+            }
+
+            function startTyping(text) {
+                isTyping = true;
+                outputElement.innerHTML = '';
+                outputElement.classList.add('typewriter-cursor');
+                currentTextTokens = parseHTMLText(text);
+                tokenIndex = 0;
+                
+                setTimeout(() => {
+                    if(isTyping) skipHint.classList.remove('hidden');
+                }, 2000); 
+                
+                typeNextToken();
+            }
+
+            function finishTyping() {
+                isTyping = false;
+                clearTimeout(typingTimeout);
+                
+                outputElement.innerHTML = pagesData[currentPage].text;
+                outputElement.classList.remove('typewriter-cursor');
+                skipHint.classList.add('hidden');
+                
+                updateNavigationButtons();
+            }
+
+            function updateNavigationButtons() {
+                // Next Button
+                nextBtn.classList.remove('hidden');
+                setTimeout(() => {
+                    nextBtn.style.opacity = '1';
+                    if(currentPage === pagesData.length - 1) {
+                        nextBtn.innerHTML = 'Finish <span>❤️</span>';
+                    } else {
+                        nextBtn.innerHTML = 'Next <span>➔</span>';
+                    }
+                }, 50);
+
+                // Prev Button
+                if (currentPage > 0) {
+                    prevBtn.classList.remove('hidden');
+                    // Reverse the arrow for previous button visually
+                    prevBtn.innerHTML = '<span style="transform: scaleX(-1); display: inline-block;">➔</span> Previous';
+                    setTimeout(() => {
+                        prevBtn.style.opacity = '1';
+                    }, 50);
+                } else {
+                    prevBtn.style.opacity = '0';
+                    setTimeout(() => prevBtn.classList.add('hidden'), 300);
+                }
+            }
+
+            function hideNavigationButtons() {
+                nextBtn.style.opacity = '0';
+                prevBtn.style.opacity = '0';
+                setTimeout(() => {
+                    nextBtn.classList.add('hidden');
+                    prevBtn.classList.add('hidden');
+                }, 300);
+            }
+
+            function renderPage(index) {
+                hideNavigationButtons();
+                graphicContainer.style.opacity = '0';
+                skipHint.classList.add('hidden');
+                
+                setTimeout(() => {
+                    const pageData = pagesData[index];
+                    graphicContainer.innerHTML = `<span>${pageData.icon}</span>`;
+                    graphicContainer.style.opacity = '1';
+                    
+                    startTyping(pageData.text);
+                }, 300);
+            }
+
+            function showClosingScreen() {
+                appContainer.classList.add('fade-out');
+                setTimeout(() => {
+                    appContainer.style.display = 'none';
+                    closingScreen.classList.remove('hidden');
+                    closingScreen.classList.add('fade-in-slow');
+                }, 800);
+            }
+
+            // Events
+            startBtn.addEventListener('click', () => {
+                landingScreen.classList.add('fade-out');
+                setTimeout(() => {
+                    landingScreen.style.display = 'none';
+                    appContainer.classList.remove('hidden');
+                    appContainer.classList.add('fade-in');
+                    appContainer.style.display = 'flex';
+                    renderPage(currentPage);
+                }, 800);
+            });
+
+            textContainer.addEventListener('click', () => {
+                if (isTyping) finishTyping();
+            });
+
+            nextBtn.addEventListener('click', (e) => {
+                e.stopPropagation(); 
+                if (currentPage < pagesData.length - 1) {
+                    currentPage++;
+                    renderPage(currentPage);
+                } else if (currentPage === pagesData.length - 1) {
+                    showClosingScreen();
+                }
+            });
+
+            prevBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (currentPage > 0) {
+                    currentPage--;
+                    renderPage(currentPage);
+                }
+            });
+            
+        });
+    </script>
+</body>
+</html>
